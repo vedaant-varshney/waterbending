@@ -4,11 +4,15 @@
 #include <GL/glu.h>
 #include <cmath>
 #include <iostream>
+#include <xtensor/xtensor.hpp>
+#include <glm/glm.hpp>
 #include "test.hpp"
 
 int NUM_CUBES_X = 16;
 int NUM_CUBES_Y = 8;
 int NUM_CUBES_Z = 8;
+
+
 
 // TODO: Replace references to spheres with cubes
 std::vector<Cube> generateGrid(int numSpheresX, int numSpheresY, int numSpheresZ, float spacing) {
@@ -153,6 +157,9 @@ int main() {
     float angle = 0.0f;
     float time = 0.0f;
 
+    // TEMP
+
+
 
     while (running) {
         while (SDL_PollEvent(&event)) {
@@ -167,7 +174,7 @@ int main() {
         
         glRotatef(angle, 0, 1, 0);
 
-        
+        // Render loop 
         for (int x = 0; x < NUM_CUBES_X; x++) {
             for (int y = 0; y < NUM_CUBES_Y; y++) {
                 for (int z = 0; z < NUM_CUBES_Z; z++) {
