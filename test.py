@@ -10,6 +10,7 @@ NUM_CUBES_Y = 8
 NUM_CUBES_Z = 8
 SPACING = 1.7
 
+# Generates grid and gives x, y, z values for each element of grid of given dims with spacing
 def generate_grid(num_x, num_y, num_z, spacing):
     grid = []
     grid_size_x = (num_x - 1) * spacing
@@ -24,7 +25,7 @@ def generate_grid(num_x, num_y, num_z, spacing):
                     y * spacing - grid_size_y / 2.0,
                     z * spacing - grid_size_z / 2.0
                 ))
-    return grid
+    return np.reshape(grid, (num_x, num_y, num_z, 3))
 
 def draw_cube(x, y, z, r, g, b, alpha=0.3):
     glEnable(GL_BLEND)
@@ -68,10 +69,12 @@ def main():
     glMatrixMode(GL_MODELVIEW)
     
     cubes = generate_grid(NUM_CUBES_X, NUM_CUBES_Y, NUM_CUBES_Z, SPACING)
+    print(cubes.shape)
     
     running = True
     angle = 0.0
     time = 0.0
+
     
     while running:
         for event in pygame.event.get():
@@ -89,13 +92,13 @@ def main():
                     y_render = three_d_wave(2, 0.25, 1.2, x, z, time) + NUM_CUBES_Y / 2 + 0.01
                     y_index = max(int(y_render), 0)
                     if y == y_index:
-                        cx, cy, cz = cubes[x * (NUM_CUBES_Y * NUM_CUBES_Z) + y * NUM_CUBES_Z + z]
+                        cx, cy, cz = cubes[x, y, z]
                         draw_cube(cx, cy, cz, 28/255, 181/255, 237/255)
         
-        time += 0.01666
+        time += 0.016
         pygame.display.flip()
         pygame.time.wait(16)
-        angle += 1
+        angle += 0.01
     
     pygame.quit()
 
